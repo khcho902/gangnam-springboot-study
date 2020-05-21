@@ -4,9 +4,7 @@ import com.khcho902.gangnamspringbootstudy.dto.BlogDTO;
 import com.khcho902.gangnamspringbootstudy.service.BlogService;
 import com.khcho902.gangnamspringbootstudy.dto.MovieDTO;
 import com.khcho902.gangnamspringbootstudy.service.MovieService;
-import com.khcho902.gangnamspringbootstudy.dto.ResponseBlog;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -21,7 +19,6 @@ public class HomeController {
 
     private final BlogService blogService;
     private final MovieService movieService;
-
 
     @GetMapping("/blog")
     public List<BlogDTO> searchBlogByQuery(@RequestParam(name = "query") String query){

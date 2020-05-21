@@ -2,7 +2,6 @@ package com.khcho902.gangnamspringbootstudy.service;
 
 import com.khcho902.gangnamspringbootstudy.dto.BlogDTO;
 import com.khcho902.gangnamspringbootstudy.repository.BlogRepository;
-import com.khcho902.gangnamspringbootstudy.dto.ResponseBlog;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
