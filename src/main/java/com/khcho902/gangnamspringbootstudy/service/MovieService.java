@@ -1,7 +1,8 @@
 package com.khcho902.gangnamspringbootstudy.service;
 
-import com.khcho902.gangnamspringbootstudy.repository.MovieRepository;
+import com.khcho902.gangnamspringbootstudy.dto.ResponseMovie;
 import com.khcho902.gangnamspringbootstudy.dto.MovieDTO;
+import com.khcho902.gangnamspringbootstudy.repository.SearchRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -13,9 +14,11 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class MovieService {
 
-    private final MovieRepository movieRepository;
+    private final SearchRepository<ResponseMovie> movieRepository;
 
     public List<MovieDTO> findByQuery(String query) {
+
+        movieRepository.setTypeParameterClass(ResponseMovie.class);
 
         List<MovieDTO> movie_list = movieRepository.findByQuery(query).getItems().stream()
                                     .map(m -> MovieDTO.builder()
