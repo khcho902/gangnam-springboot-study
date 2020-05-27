@@ -20,27 +20,23 @@ public class MovieService {
 
         movieRepository.setTypeParameterClass(ResponseMovie.class);
 
-        List<MovieDTO> movie_list = movieRepository.findByQuery(query).getItems().stream()
-                                    .map(m -> MovieDTO.builder()
-                                        .title(m.getTitle())
-                                        .link(m.getLink())
-                                        .image(m.getImage())
-                                        .subtitle(m.getSubtitle())
-                                        .pubDate(m.getPubDate())
-                                        .director(m.getDirector())
-                                        .actor(m.getActor())
-                                        .userRating(m.getUserRating())
-                                        .build())
-                                    .collect(Collectors.toList());
-
-        movie_list.sort(new Comparator<MovieDTO>() {
-            @Override
-            public int compare(MovieDTO o1, MovieDTO o2) {
-                return (int)(o2.getUserRating() * 100 - o1.getUserRating() * 100);
-            }
-        });
-
-        return movie_list;
+        return movieRepository.findByQuery(query).getItems().stream()
+                .map(m -> MovieDTO.builder()
+                        .title(m.getTitle())
+                        .link(m.getLink())
+                        .image(m.getImage())
+                        .subtitle(m.getSubtitle())
+                        .pubDate(m.getPubDate())
+                        .director(m.getDirector())
+                        .actor(m.getActor())
+                        .userRating(m.getUserRating())
+                        .build())
+                .sorted(new Comparator<MovieDTO>() {
+                            @Override
+                            public int compare(MovieDTO o1, MovieDTO o2) {
+                                return (int) (o2.getUserRating() * 100 - o1.getUserRating() * 100);
+                            }})
+                .collect(Collectors.toList());
     }
 }
 
