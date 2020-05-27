@@ -1,4 +1,4 @@
-package com.khcho902.gangnamspringbootstudy.repository;
+package com.khcho902.gangnamspringbootstudy.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
