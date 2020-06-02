@@ -1,8 +1,8 @@
 package com.khcho902.gangnamspringbootstudy.service;
 
 import com.khcho902.gangnamspringbootstudy.dto.BlogDTO;
-import com.khcho902.gangnamspringbootstudy.dto.ResponseBlog;
-import com.khcho902.gangnamspringbootstudy.repository.SearchRepository;
+import com.khcho902.gangnamspringbootstudy.dto.NaverResponseBlog;
+import com.khcho902.gangnamspringbootstudy.repository.NaverSearchRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -13,13 +13,11 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class BlogService {
 
-    private final SearchRepository<ResponseBlog> blogRepository;
+    private final NaverSearchRepository<NaverResponseBlog> naverBlogRepository;
 
     public List<BlogDTO> findByQuery(String query) {
 
-        blogRepository.setTypeParameterClass(ResponseBlog.class);
-
-        return blogRepository.findByQuery(query).getItems().stream()
+        return naverBlogRepository.findByQuery("blog", query).getItems().stream()
                 .map(b -> BlogDTO.builder()
                         .title(b.getTitle())
                         .link(b.getLink())

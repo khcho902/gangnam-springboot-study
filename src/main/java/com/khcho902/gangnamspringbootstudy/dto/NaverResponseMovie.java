@@ -7,7 +7,7 @@ import java.util.List;
 
 @Getter
 @Setter
-public class ResponseMovie {
+public class NaverResponseMovie {
 
     private List<MovieItem> items;
 

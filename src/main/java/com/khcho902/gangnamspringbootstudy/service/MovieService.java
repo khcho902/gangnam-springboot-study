@@ -1,8 +1,8 @@
 package com.khcho902.gangnamspringbootstudy.service;
 
-import com.khcho902.gangnamspringbootstudy.dto.ResponseMovie;
 import com.khcho902.gangnamspringbootstudy.dto.MovieDTO;
-import com.khcho902.gangnamspringbootstudy.repository.SearchRepository;
+import com.khcho902.gangnamspringbootstudy.dto.NaverResponseMovie;
+import com.khcho902.gangnamspringbootstudy.repository.NaverSearchRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -14,13 +14,11 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class MovieService {
 
-    private final SearchRepository<ResponseMovie> movieRepository;
+    private final NaverSearchRepository<NaverResponseMovie> naverMovieRepository;
 
     public List<MovieDTO> findByQuery(String query) {
 
-        movieRepository.setTypeParameterClass(ResponseMovie.class);
-
-        return movieRepository.findByQuery(query).getItems().stream()
+        return naverMovieRepository.findByQuery("movie", query).getItems().stream()
                 .map(m -> MovieDTO.builder()
                         .title(m.getTitle())
                         .link(m.getLink())
