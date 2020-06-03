@@ -19,7 +19,7 @@ public class MovieService {
 
         return naverMovieRepository.findByQuery("movie", query).getItems().stream()
                 .map(m -> MovieDTO.builder()
-                        .title(m.getTitle())
+                        .title(m.getTitle().replace("<b>","").replace("</b>",""))
                         .link(m.getLink())
                         .image(m.getImage())
                         .subtitle(m.getSubtitle())
@@ -34,6 +34,7 @@ public class MovieService {
     public List<MovieDTO> findByQueryOrderByRating(String query) {
 
         return findByQuery(query).stream()
+                .filter(b -> !((Float)b.getUserRating()).equals(0.0f))
                 .sorted((a, b) -> (int)(b.getUserRating() * 100) - (int)(a.getUserRating() * 100))
                 .collect(Collectors.toList());
     }

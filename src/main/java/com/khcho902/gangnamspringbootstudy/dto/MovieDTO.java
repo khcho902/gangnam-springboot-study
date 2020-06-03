@@ -2,9 +2,11 @@ package com.khcho902.gangnamspringbootstudy.dto;
 
 import lombok.Builder;
 import lombok.Getter;
+import lombok.Setter;
 
 @Getter
 @Builder
+@Setter
 public class MovieDTO {
 
     private String title;

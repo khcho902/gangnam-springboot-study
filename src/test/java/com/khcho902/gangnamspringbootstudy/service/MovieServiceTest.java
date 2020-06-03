@@ -9,6 +9,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.util.StringUtils;
 
 import java.util.Arrays;
 import java.util.List;
@@ -39,6 +40,41 @@ class MovieServiceTest {
 
         // then
         assertEquals(expectedUserRating, actualList.stream().findFirst().get().getUserRating());
+    }
+
+    @Test
+    @DisplayName("평점이 0인 데이터는 제외 확인")
+    void user_ratings_exclude_zero(){
+        // given
+        int expectedMovieSize = 5;
+        Mockito.when(movieNaverSearchRepository.findByQuery(any(), any())).thenReturn(getStubMovieList());
+        movieService = new MovieService(movieNaverSearchRepository);
+
+        // when
+        List<MovieDTO> actualList = movieService.findByQueryOrderByRating("쿼리");
+
+        // then
+        assertEquals(expectedMovieSize, actualList.size());
+    }
+
+    @Test
+    @DisplayName("<b>, </b> 제거 잘 하는지 확인")
+    void remove_special_characters_when_mapping_titlle(){
+
+        //given
+        int expectedSpecialCharacterCount = 0;
+        Mockito.when(movieNaverSearchRepository.findByQuery(any(), any())).thenReturn(getStubMovieList());
+        movieService = new MovieService(movieNaverSearchRepository);
+
+        //when
+        List<MovieDTO> actualList = movieService.findByQuery("쿼리");
+
+        //then
+        assertEquals(expectedSpecialCharacterCount,
+                StringUtils.countOccurrencesOf(actualList.stream().findFirst().get().getTitle(),"<b>"));
+        assertEquals(expectedSpecialCharacterCount,
+                StringUtils.countOccurrencesOf(actualList.stream().findFirst().get().getTitle(),"</b>"));
+
     }
 
     private NaverResponseMovie getStubMovieList(){
