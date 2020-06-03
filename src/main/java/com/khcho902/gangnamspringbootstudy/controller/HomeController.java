@@ -27,6 +27,6 @@ public class HomeController {
 
     @GetMapping("/movie")
     public List<MovieDTO> searchMovieByQuery(@RequestParam(name = "query") String query) {
-        return movieService.findByQuery(query);
+        return movieService.findByQueryOrderByRating(query);
     }
 }

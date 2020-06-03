@@ -6,7 +6,6 @@ import com.khcho902.gangnamspringbootstudy.repository.NaverSearchRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -29,11 +28,13 @@ public class MovieService {
                         .actor(m.getActor())
                         .userRating(m.getUserRating())
                         .build())
-                .sorted(new Comparator<MovieDTO>() {
-                            @Override
-                            public int compare(MovieDTO o1, MovieDTO o2) {
-                                return (int) (o2.getUserRating() * 100 - o1.getUserRating() * 100);
-                            }})
+                .collect(Collectors.toList());
+    }
+
+    public List<MovieDTO> findByQueryOrderByRating(String query) {
+
+        return findByQuery(query).stream()
+                .sorted((a, b) -> (int)(b.getUserRating() * 100) - (int)(a.getUserRating() * 100))
                 .collect(Collectors.toList());
     }
 }
