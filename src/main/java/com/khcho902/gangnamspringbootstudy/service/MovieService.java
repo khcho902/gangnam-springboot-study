@@ -1,7 +1,8 @@
 package com.khcho902.gangnamspringbootstudy.service;
 
-import com.khcho902.gangnamspringbootstudy.repository.MovieRepository;
 import com.khcho902.gangnamspringbootstudy.dto.MovieDTO;
+import com.khcho902.gangnamspringbootstudy.dto.NaverResponseMovie;
+import com.khcho902.gangnamspringbootstudy.repository.NaverSearchRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -12,12 +13,13 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class MovieService {
 
-    private final MovieRepository movieRepository;
+    private final NaverSearchRepository<NaverResponseMovie> naverMovieRepository;
 
     public List<MovieDTO> findByQuery(String query) {
-        return movieRepository.findByQuery(query).getItems().stream()
+
+        return naverMovieRepository.findByQuery("movie", query).getItems().stream()
                 .map(m -> MovieDTO.builder()
-                        .title(m.getTitle())
+                        .title(m.getTitle().replace("<b>","").replace("</b>",""))
                         .link(m.getLink())
                         .image(m.getImage())
                         .subtitle(m.getSubtitle())
@@ -28,4 +30,13 @@ public class MovieService {
                         .build())
                 .collect(Collectors.toList());
     }
+
+    public List<MovieDTO> findByQueryOrderByRating(String query) {
+
+        return findByQuery(query).stream()
+                .filter(b -> !((Float)b.getUserRating()).equals(0.0f))
+                .sorted((a, b) -> (int)(b.getUserRating() * 100) - (int)(a.getUserRating() * 100))
+                .collect(Collectors.toList());
+    }
 }
+
